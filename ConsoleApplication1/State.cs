@@ -67,6 +67,7 @@ namespace ConsoleApplication1
         {
             this.updateDTO();
             double distDone = Vector2D.Distance(this.sp.posActual, this.sp.posInicial);
+            Screen.AddText("Distance done: " , distDone.ToString());
             if (distDone < this.sp.distance)
             {
                 return new Forward(this.sp);
@@ -92,11 +93,10 @@ namespace ConsoleApplication1
             this.updateDTO();
 
             // dirActual i dirInicialPerpendicular
-            Vector2D dirInicialP = new Vector2D(this.sp.dirInicial.Y, -1 * this.sp.dirInicial.X);
-            double angleBetween = Util.AngleBetween(dirInicialP, this.sp.dirActual);
+            double angleBetween = Util.AngleBetween(this.sp.dirInicial, this.sp.dirActual);
             Screen.AddText("AngleBetween" , angleBetween.ToString());
 
-            if (angleBetween > 5)
+            if (Math.Abs(angleBetween) < 90)
             {
                 return new Turn(this.sp);
             }

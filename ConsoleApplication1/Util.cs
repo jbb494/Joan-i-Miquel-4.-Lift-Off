@@ -11,6 +11,7 @@ using Sandbox.Game;
 using Sandbox.ModAPI.Ingame;
 using Sandbox.ModAPI.Interfaces;
 using VRageMath;
+using VRage.Game.ModAPI.Ingame;
 
 namespace ConsoleApplication1
 {
@@ -65,6 +66,23 @@ namespace ConsoleApplication1
             double angleDegree = angleRad * (180 / Math.PI) ;
 
             return angleDegree;
+        }
+
+        public static MatrixD GetGrid2WorldTransform(IMyCubeGrid grid)
+        {
+            Vector3D origin = grid.GridIntegerToWorld(new Vector3I(0, 0, 0));
+            Vector3D plusY = grid.GridIntegerToWorld(new Vector3I(0, 1, 0)) - origin;
+            Vector3D plusZ = grid.GridIntegerToWorld(new Vector3I(0, 0, 1)) - origin;
+            return MatrixD.CreateScale(grid.GridSize) * MatrixD.CreateWorld(origin, -plusZ, plusY);
+        }
+
+        public static MatrixD GetBlock2WorldTransform(IMyCubeBlock blk)
+        {
+            Matrix blk2grid;
+            blk.Orientation.GetMatrix(out blk2grid);
+            return blk2grid *
+                   MatrixD.CreateTranslation(((Vector3D)new Vector3D(blk.Min + blk.Max)) / 2.0) *
+                   GetGrid2WorldTransform(blk.CubeGrid);
         }
     }
     static class Screen

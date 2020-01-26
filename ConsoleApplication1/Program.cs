@@ -43,11 +43,13 @@ namespace ConsoleApplication1
         }
 
         public static Vector2D GetDirection() {
-            IMyEntity compu = P.gridTerminalSystem.GetBlockWithName("MainScript");
-            IMyEntity antenna = P.gridTerminalSystem.GetBlockWithName("AntennaBack");
-            Vector3D dirBackward = antenna.GetPosition();
-            Vector3D dirForward = compu.GetPosition();
-            Vector3D dirActual = dirBackward - dirForward;
+            IMyCubeBlock reference = P.gridTerminalSystem.GetBlockWithName("MainScript") as IMyCubeBlock;
+
+            Vector3D fwd = reference.WorldMatrix.Forward - reference.WorldMatrix.Backward;
+            fwd.Normalize(); //(Need to normalize because the above matrices are scaled by grid size)
+
+
+            Vector3D dirActual = fwd;
             Screen.AddText("Direction", dirActual.ToString());
             return  Util.Vector3DToVector2D(dirActual);
         }

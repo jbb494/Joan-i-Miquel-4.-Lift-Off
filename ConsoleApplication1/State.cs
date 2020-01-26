@@ -58,6 +58,7 @@ namespace ConsoleApplication1
     {
         public Forward(StateDTO dto) : base(dto)
         {
+            Screen.AddText("State", "Forward");
             P.wheelGroup.SteeringOverride(0);
             P.wheelGroup.PropulsionOverride(P.propulsionOverride);
         }
@@ -81,6 +82,7 @@ namespace ConsoleApplication1
     {
         public Turn(StateDTO dto) : base(dto)
         {
+            Screen.AddText("State", "Turn");
             P.wheelGroup.PropulsionOverride(P.propulsionOverride);
             P.wheelGroup.SteeringOverride(P.steeringOverride);
         }
@@ -92,9 +94,9 @@ namespace ConsoleApplication1
             // dirActual i dirInicialPerpendicular
             Vector2D dirInicialP = new Vector2D(this.sp.dirInicial.Y, -1 * this.sp.dirInicial.X);
             double angleBetween = Util.AngleBetween(dirInicialP, this.sp.dirActual);
-            Screen.AddText("AngleBetween: " ,Math.Abs(angleBetween).ToString());
+            Screen.AddText("AngleBetween" , angleBetween.ToString());
 
-            if (Math.Abs(angleBetween) < 10|| true)
+            if (angleBetween > 5)
             {
                 return new Turn(this.sp);
             }
@@ -109,6 +111,7 @@ namespace ConsoleApplication1
     {
         public Forward2(StateDTO dto) : base(dto)
         {
+            Screen.AddText("State", "Forward2");
             P.wheelGroup.PropulsionOverride(P.propulsionOverride);
             P.wheelGroup.SteeringOverride(0);
         }
@@ -132,6 +135,7 @@ namespace ConsoleApplication1
     {
         public Stop(StateDTO dto) : base(dto)
         {
+            Screen.AddText("State", "Stop");
             P.wheelGroup.PropulsionOverride(0);
             P.wheelGroup.SteeringOverride(0);
         }

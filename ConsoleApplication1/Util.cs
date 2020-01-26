@@ -67,4 +67,37 @@ namespace ConsoleApplication1
             return angleDegree;
         }
     }
+    static class Screen
+    {
+        private static List<IMyTextPanel> screens;
+        private static string text;
+        private static string textStatic;
+        public static void Initialize()
+        {
+            Screen.screens = new List<IMyTextPanel>();
+            P.gridTerminalSystem.GetBlocksOfType<IMyTextPanel>(screens);
+            textStatic = "";
+            Screen.Clean();
+        }
+        public static void AddText(string DebugName, string textArg)
+        {
+            Screen.text = text + DebugName + ": " + textArg + "\n";
+        }
+        public static void AddTextStatic(string DebugName, string textArg)
+        {
+            Screen.textStatic = textStatic + DebugName + ": " + textArg + "\n";
+        }
+
+        public static void Clean()
+        {
+            Screen.text = "";
+        }
+
+        public static void Show()
+        {
+            Screen.screens.ForEach(delegate (IMyTextPanel screen) {
+                screen.WriteText(Screen.text + Screen.textStatic);
+            });
+        }
+    }
 }

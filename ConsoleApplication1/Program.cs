@@ -19,6 +19,7 @@ namespace ConsoleApplication1
         // CONSTANTS: 
         public const double propulsionOverride = 0.06;
         public const double steeringOverride = 0.8;
+        public const double distanceForward = 10;
 
         // Atributs statics publics
         public static State state;
@@ -52,33 +53,10 @@ namespace ConsoleApplication1
         }
     }
 
-    static class Screen {
-        private static List<IMyTextPanel> screens;
-        private static string text;
-        public static void Initialize() {
-            Screen.screens = new List<IMyTextPanel>();
-            P.gridTerminalSystem.GetBlocksOfType<IMyTextPanel>(screens);
-            Screen.Clean();
-        }
-        public static void AddText(string DebugName, string textArg) {
-            Screen.text = text + DebugName + ": " + textArg + "\n";
-        }
-
-        public static void Clean() {
-            Screen.text = "";
-        }
-
-        public static void Show() {
-            Screen.screens.ForEach(delegate (IMyTextPanel screen) {
-                screen.WriteText(Screen.text);
-            });
-        }
-    }
-
     class Program
     {
         public Program() {
-            Runtime.UpdateFrequency = UpdateFrequency.Update100;
+            Runtime.UpdateFrequency = UpdateFrequency.Update10;
 
             // Inicialitzem P
             P.Initialize(GridTerminalSystem);
@@ -89,12 +67,14 @@ namespace ConsoleApplication1
             // Estat incial
             Vector2D posInicial = P.GetPosition();
             Vector2D dirInicial = P.GetDirection();
-            double distance = 30;
+            double distance = P.distanceForward;
             P.state = new Forward(new StateDTO(posInicial, dirInicial, distance, posInicial, dirInicial));
         }
 
         static void Main(string[] args)
         {
+            P.wheelGroup.PropulsionOverride(P.propulsionOverride);
+            P.wheelGroup.SteeringOverride(P.steeringOverride);
             P.state = P.state.NextState();
             
             Screen.Show();

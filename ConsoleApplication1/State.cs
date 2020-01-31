@@ -95,14 +95,15 @@ namespace ConsoleApplication1
             // dirActual i dirInicialPerpendicular
             double angleBetween = Util.AngleBetween(this.sp.dirInicial, this.sp.dirActual);
             Screen.AddText("AngleBetween" , angleBetween.ToString());
-
+            P.Echo("Dir inicial: " +  this.sp.dirInicial.ToString() + "\n" + "Dir Actual: " + this.sp.dirActual.ToString() + "\n" + "angle: " + angleBetween.ToString());
             if (Math.Abs(angleBetween) < 90)
             {
                 return new Turn(this.sp);
             }
             else
             {
-                return new Forward2(new StateDTO(this.sp.posActual, this.sp.dirActual, this.sp.distance, this.sp.posActual, this.sp.posActual));
+                //return new Forward2(new StateDTO(this.sp.posActual, this.sp.dirActual, this.sp.distance, this.sp.posActual, this.sp.posActual));
+                return new Stop(new StateDTO(this.sp.posActual, this.sp.dirActual, this.sp.distance, this.sp.posActual, this.sp.posActual));
             }
         }
     }

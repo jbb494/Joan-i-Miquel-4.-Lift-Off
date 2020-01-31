@@ -2,3 +2,5 @@ D:\Things\Programming\Space Engineers\ConsoleApplication1\ConsoleApplication1\bi
 D:\Things\Programming\Space Engineers\ConsoleApplication1\ConsoleApplication1\obj\Debug\ConsoleApplication1.csprojResolveAssemblyReference.cache
 D:\Things\Programming\Space Engineers\ConsoleApplication1\ConsoleApplication1\obj\Debug\ConsoleApplication1.csproj.ConsoleApplication1.exe.config
 D:\Things\Programming\Space Engineers\Joan-i-Miquel-4.-Lift-Off\ConsoleApplication1\bin\Debug\ConsoleApplication1.exe.config
+D:\Things\Programming\Space Engineers\Joan-i-Miquel-4.-Lift-Off\ConsoleApplication1\obj\Debug\ConsoleApplication1.csprojResolveAssemblyReference.cache
+D:\Things\Programming\Space Engineers\Joan-i-Miquel-4.-Lift-Off\ConsoleApplication1\obj\Debug\ConsoleApplication1.csproj.ConsoleApplication1.exe.config

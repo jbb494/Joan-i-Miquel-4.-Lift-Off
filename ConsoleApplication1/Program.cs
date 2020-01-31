@@ -24,11 +24,13 @@ namespace ConsoleApplication1
         // Atributs statics publics
         public static State state;
         public static IMyGridTerminalSystem gridTerminalSystem;
+        public static Action<string> Echo;
         public static WheelGroup wheelGroup;
         
-        public static void Initialize(IMyGridTerminalSystem GridTerminalSystem) {
+        public static void Initialize(IMyGridTerminalSystem GridTerminalSystem, Action<string> echo) {
             // Access to GridTerminalSystem
             P.gridTerminalSystem = GridTerminalSystem;
+            P.Echo = echo;
 
             // Wheel Group
             List<IMyMotorSuspension> wheels = new List<IMyMotorSuspension>();
@@ -45,13 +47,11 @@ namespace ConsoleApplication1
         public static Vector2D GetDirection() {
             IMyCubeBlock reference = P.gridTerminalSystem.GetBlockWithName("MainScript") as IMyCubeBlock;
 
-            Vector3D fwd = reference.WorldMatrix.Forward - reference.WorldMatrix.Backward;
-            fwd.Normalize(); //(Need to normalize because the above matrices are scaled by grid size)
-
-
-            Vector3D dirActual = fwd;
-            Screen.AddText("Direction", dirActual.ToString());
-            return  Util.Vector3DToVector2D(dirActual);
+            Vector3D dirActual3D = reference.WorldMatrix.GetDirectionVector(Base6Directions.Direction.Forward);
+            Vector2D dirActual = Vector2D.Normalize(Util.Vector3DToVector2D(dirActual3D));
+            Echo("ActualNoNormalized: " + Util.Vector3DToVector2D(dirActual3D));
+            Screen.AddText("Direction Forward", dirActual.ToString());
+            return  dirActual;
         }
     }
 
@@ -61,7 +61,8 @@ namespace ConsoleApplication1
             Runtime.UpdateFrequency = UpdateFrequency.Update10;
 
             // Inicialitzem P
-            P.Initialize(GridTerminalSystem);
+            P.Initialize(GridTerminalSystem, Echo);
+                
 
             // Inicialitzem Screen
             Screen.Initialize();
@@ -75,8 +76,6 @@ namespace ConsoleApplication1
 
         static void Main(string[] args)
         {
-            P.wheelGroup.PropulsionOverride(P.propulsionOverride);
-            P.wheelGroup.SteeringOverride(P.steeringOverride);
             P.state = P.state.NextState();
             
             Screen.Show();

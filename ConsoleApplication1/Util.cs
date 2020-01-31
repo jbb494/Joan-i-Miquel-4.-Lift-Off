@@ -48,7 +48,8 @@ namespace ConsoleApplication1
     public class Util {
         public static Vector2D Vector3DToVector2D(Vector3D v)
         {
-            return new Vector2D(v.X, v.Z);
+            Vector2D returnVec = new Vector2D(v.X, v.Z);
+            return returnVec;
         }
 
         public static double AngleBetween(Vector2D v1, Vector2D v2)
@@ -66,23 +67,6 @@ namespace ConsoleApplication1
             double angleDegree = angleRad * (180 / Math.PI) ;
 
             return angleDegree;
-        }
-
-        public static MatrixD GetGrid2WorldTransform(IMyCubeGrid grid)
-        {
-            Vector3D origin = grid.GridIntegerToWorld(new Vector3I(0, 0, 0));
-            Vector3D plusY = grid.GridIntegerToWorld(new Vector3I(0, 1, 0)) - origin;
-            Vector3D plusZ = grid.GridIntegerToWorld(new Vector3I(0, 0, 1)) - origin;
-            return MatrixD.CreateScale(grid.GridSize) * MatrixD.CreateWorld(origin, -plusZ, plusY);
-        }
-
-        public static MatrixD GetBlock2WorldTransform(IMyCubeBlock blk)
-        {
-            Matrix blk2grid;
-            blk.Orientation.GetMatrix(out blk2grid);
-            return blk2grid *
-                   MatrixD.CreateTranslation(((Vector3D)new Vector3D(blk.Min + blk.Max)) / 2.0) *
-                   GetGrid2WorldTransform(blk.CubeGrid);
         }
     }
     static class Screen
